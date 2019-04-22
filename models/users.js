@@ -48,12 +48,10 @@ var Users = new Schema({
 
 //Add unique validation properties to the model
 Users.plugin(uniqueValidator);
+Users.plugin(passportLocalMongoose);
 
 Users.pre('save', function(next){
   this.modified = new Date().toISOString();
   next();
 });
-
-User.plugin(passportLocalMongoose);
-
 module.exports  = mongoose.model('Users', Users);
