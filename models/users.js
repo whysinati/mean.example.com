@@ -34,4 +34,9 @@ var Users = new Schema({
 //Add unique validation properties to the model
 Users.plugin(uniqueValidator);
 
+Users.pre('save', function(next){
+  this.modified = new Date().toISOString();
+  next();
+});
+
 module.exports  = mongoose.model('Users', Users);
