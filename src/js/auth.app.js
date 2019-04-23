@@ -108,11 +108,63 @@ var authApp = (function() {
   }
   return {
     load: function(){
+
+      switch(window.location.hash){
+        case '#register':
+          registrationForm();
+          postRequest('registrationForm', '/api/auth/register');
+          validate.registrationForm();
+          break;
+
+        default:
+          loginForm();
+          postRequest('loginForm', '/api/auth/login');
+          break;
+      }
+
+    }
+  }
+  return {
+    load: function(){
       registrationForm();
       postRequest('registrationForm', '/api/auth/register');
     }
   }
+  var validate = (function() {
+
+    function confirmPasswordMatch() {
+
+      let pw = document.getElementById('password');
+      let cpw = document.getElementById('confirm_password');
+
+      if(pw.value !== cpw.value){
+        cpw.setCustomValidity("Passwords do not match");
+      } else {
+        cpw.setCustomValidity("");
+      }
+
+    }
+
+    return {
+      registrationForm: function(){
+        document.querySelector('#registrationForm input[type="submit"]').addEventListener(
+          'click',
+          function(){
+          confirmPasswordMatch();
+        });
+      }
+    }
+
+  })();
+
+
+  // ~line 115
+  validate.registrationForm();
 
 })();
 
 authApp.load();
+
+window.addEventListener("hashchange", function(){
+  authApp.load();
+});
