@@ -121,7 +121,6 @@ var authApp = (function() {
           postRequest('loginForm', '/api/auth/login');
           break;
       }
-
     }
   }
   return {
@@ -156,7 +155,6 @@ var authApp = (function() {
     }
 
   })();
-
 
   // ~line 115
   validate.registrationForm();
