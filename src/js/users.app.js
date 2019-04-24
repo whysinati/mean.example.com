@@ -56,15 +56,37 @@ var usersApp = (function() {
       </div>`;
     
       //Append the HTML to the #app
-      
+
       app.innerHTML = table;
     }
   }
 
   return {
     load: function(){
-      alert('LOADED');
-      viewUsers();
+      let hash = window.location.hash;
+      let hashArray = hash.split('-');
+    
+      switch(hashArray[0]){
+        case '#create':
+          console.log('CREATE');
+          break;
+    
+        case '#view':
+          console.log('VIEW');
+          break;
+    
+        case '#edit':
+          console.log('EDIT');
+          break;
+    
+        case '#delete':
+          console.log('DELETE');
+          break;
+    
+        default:
+          viewUsers();
+          break;
+      }
     }
   }
 
