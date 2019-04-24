@@ -13,6 +13,7 @@ var Users = require('./models/users');
 
 var authRouter = require('./routes/auth');
 var indexRouter = require('./routes/index');
+var usersRouter = require('./routes/users');
 var apiUsersRouter = require('./routes/api/users');
 var apiAuthRouter = require('./routes/api/auth');
 var app = express();
@@ -47,9 +48,6 @@ app.use(require('express-session')({
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use('/', indexRouter);
-app.use('/api/users', apiUsersRouter);
-
 //Connect to MongoDB
 mongoose.connect(config.mongodb, { useNewUrlParser: true });
 
@@ -68,8 +66,6 @@ passport.deserializeUser(function(user, done){
   done(null, user);
 });
 
-app.use('/api/auth', apiAuthRouter);
-app.use('/auth', authRouter);
 app.use(function(req,res,next){
   res.locals.session = req.session;
 
@@ -86,11 +82,11 @@ app.use(function(req,res,next){
 app.use(function(req,res,next){
   //Uncomment the following line to allow access to everything.
   return next();
-
+  usersRouter
   //Allow any endpoint that is an exact match. The server does not
-  //have access to the hash so /auth and /auth#xxx would bot be considered
+  //have access to User Managementth#xxx would bot be considered
   //exact matches.
-  var whitelist = [
+  var whitelist = [User Management
     '/',
     '/auth'
   ];
@@ -128,6 +124,12 @@ app.use(function(req,res,next){
   //redirect the user to the login screen.
   return res.redirect('/auth#login');
 });
+
+app.use('/', indexRouter);
+app.use('/api/users', apiUsersRouter);
+app.use('/api/auth', apiAuthRouter);
+app.use('/auth', authRouter);
+app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

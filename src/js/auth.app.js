@@ -25,11 +25,11 @@ var authApp = (function() {
 
     app.innerHTML=form;
   }
+
   function registrationForm(){
     var app = document.getElementById('app');
 
     var form =  `
-
         <div class="card login-form">
           <form id="registrationForm" class="card-body">
             <h1 class="card-title text-center">Create an Account</h1>
@@ -52,7 +52,7 @@ var authApp = (function() {
 
             <div class="form-group">
               <label for="email">Email</label>
-              <input type="email" id="email" name="email" class="form-control" required>
+              <input type="text" id="email" name="email" class="form-control" required>
             </div>
 
             <div class="form-group">
@@ -74,9 +74,12 @@ var authApp = (function() {
 
     app.innerHTML=form;
   }
+
   function postRequest(formId, url){
     let form = document.getElementById(formId);
+
     form.addEventListener('submit', function(e){
+
       e.preventDefault();
 
       let formData = new FormData(form);
@@ -97,7 +100,6 @@ var authApp = (function() {
       xhr.send(JSON.stringify(object));
       xhr.onload = function(){
         let data = JSON.parse(xhr.response);
-        console.log(data);
         if(data.success===true){
           window.location.href = '/';
         }else{
@@ -106,6 +108,7 @@ var authApp = (function() {
       }
     });
   }
+
   return {
     load: function(){
 
@@ -121,45 +124,40 @@ var authApp = (function() {
           postRequest('loginForm', '/api/auth/login');
           break;
       }
+
     }
   }
-  return {
-    load: function(){
-      registrationForm();
-      postRequest('registrationForm', '/api/auth/register');
-    }
-  }
-  var validate = (function() {
-
-    function confirmPasswordMatch() {
-
-      let pw = document.getElementById('password');
-      let cpw = document.getElementById('confirm_password');
-
-      if(pw.value !== cpw.value){
-        cpw.setCustomValidity("Passwords do not match");
-      } else {
-        cpw.setCustomValidity("");
-      }
-
-    }
-
-    return {
-      registrationForm: function(){
-        document.querySelector('#registrationForm input[type="submit"]').addEventListener(
-          'click',
-          function(){
-          confirmPasswordMatch();
-        });
-      }
-    }
-
-  })();
-
-  // ~line 115
-  validate.registrationForm();
 
 })();
+
+var validate = (function() {
+
+  function confirmPasswordMatch() {
+
+    let pw = document.getElementById('password');
+    let cpw = document.getElementById('confirm_password');
+
+    if(pw.value !== cpw.value){
+      cpw.setCustomValidity("Passwords do not match");
+    } else {
+      cpw.setCustomValidity("");
+    }
+
+  }
+
+  return {
+    registrationForm: function(){
+      document.querySelector('#registrationForm input[type="submit"]').addEventListener(
+        'click',
+        function(){
+        validateEmail();
+        confirmPasswordMatch();
+      });
+    }
+  }
+
+})();
+
 
 authApp.load();
 
