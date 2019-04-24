@@ -143,6 +143,26 @@ var usersApp = (function() {
       app.innerHTML = card;
     }
   }
+
+  function editUser(id){
+
+    let uri = `${window.location.origin}/api/users/${id}`;
+    let xhr = new XMLHttpRequest();
+    xhr.open('GET', uri);
+  
+    xhr.setRequestHeader(
+      'Content-Type',
+      'application/json; charset=UTF-8'
+    );
+  
+    xhr.send();
+  
+    xhr.onload = function(){
+      let data = JSON.parse(xhr.response);
+      console.log(data);
+    }
+  }
+
   function postRequest(formId, url){
     let form = document.getElementById(formId);
     form.addEventListener('submit', function(e){
@@ -190,7 +210,7 @@ var usersApp = (function() {
           break;
     
         case '#edit':
-          console.log('EDIT');
+          editUser(hashArray[1]);
           break;
     
         case '#delete':
