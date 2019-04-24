@@ -86,7 +86,7 @@ app.use(function(req,res,next){
   //Allow any endpoint that is an exact match. The server does not
   //have access to User Managementth#xxx would bot be considered
   //exact matches.
-  var whitelist = [User Management
+  var whitelist = [
     '/',
     '/auth'
   ];
