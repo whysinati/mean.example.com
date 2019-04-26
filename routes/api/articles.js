@@ -11,9 +11,19 @@ router.get('/', function(req, res, next) {
       });
 });
 
+router.get('/:id', function(req,res){
+
+  var id = req.params.id;
+   Articles.findOne({'_id':id}, function(err, article){
+     if(err){
+      return res.json({'success':false, 'error': err});
+    }
+     return res.json({'success':true, 'article': article});
+   });
+});
+
 router.post('/', function(req, res) {
   Articles.create(new Articles({
-    slug: req.body.slug,
     title: req.body.title,
     body: req.body.body,
     description: req.body.description,
@@ -36,45 +46,40 @@ router.put('/', function(req, res){
 
    if(err) {
      return res.json({success: false, error: err});
-   }
+   }else if(article) {
 
-   if(article) {
+      let data = req.body;
 
-    let data = req.body;
+      if(data.title){
+      article.title = data.title;
+      }
 
-    if(data.slug){
-      article.slug = data.slug;
-    };
+      if(data.body){
+      article.body = data.body;
+      }
 
-    if(data.title){
-    article.title = data.title;
-    };
+      if(data.description){
+      article.description = data.description;
+      }
 
-    if(data.body){
-    article.body = data.body;
-    };
-
-    if(data.description){
-    article.description = data.description;
-    };
-
-    if(data.keywords){
-      article.keywords = data.keywords;
-      };
-  
+      if(data.keywords){
+        article.keywords = data.keywords;
+        }
+    
       if(data.published){
         article.published = data.published;
-        };
-    
-    article.save(function(err){
-      if(err){
-        return res.json({success: false, error: err});
-      }else{
-        return res.json({success: true, article:article});
-      }
-    });
+        post.offset = new Date(data.published).getTimezoneOffset();
+        }
+      
+      article.save(function(err){
+        if(err){
+          return res.json({success: false, error: err});
+        }else{
+          return res.json({success: true, article:article});
+        }
+      });
 
-   }
+    }
 
   });
   
@@ -84,7 +89,7 @@ router.delete('/:articleId', function(req,res){
 
   var articleId = req.params.articleId;
 
-  Aarticles.remove({'_id':articleId}, function(err,removed){
+  Articles.remove({'_id':articleId}, function(err,removed){
 
     if(err){
       return res.json({success: false, error: err});

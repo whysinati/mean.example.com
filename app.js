@@ -7,8 +7,8 @@ var config = require('./config.dev');
 var mongoose = require('mongoose');
 var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
-var LocalStrategy = require('passport-local').Strategy;
 var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
 var Users = require('./models/users');
 
 var authRouter = require('./routes/auth');
@@ -90,7 +90,8 @@ app.use(function(req,res,next){
   //exact matches.
   var whitelist = [
     '/',
-    '/auth'
+    '/auth',
+    '/articles'
   ];
 
   //req.url holds the current URL
@@ -112,7 +113,7 @@ app.use(function(req,res,next){
   //at position 0. Both /api/auth/login and /api/auth/logout would would
   //be considered a match for /api/auth/
   for(var sub of subs){
-    if(req.url.substring(0, sub.length)===sub){
+    if(req.url.substring(0,sub.length)===sub){
       return next();
     }
   }

@@ -240,7 +240,7 @@ var articlesApp = (function () {
         }
       }
     });
-  }
+  } 
 
   function deleteView(id) {
 
