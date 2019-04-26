@@ -3,7 +3,6 @@ var router = express.Router();
 var Articles = require('../models/articles');
 var today = new Date();
 
-//DO I LEAVE THIS PARTICULAR router.get?
 router.get('/app', function(req, res, next) {
   res.render('articles/app', { title: 'Articles List' });
 });

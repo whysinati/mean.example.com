@@ -267,11 +267,11 @@ var articlesApp = (function () {
             <div class="card-body text-center">
               <div>
                 Are you sure you want to delete
-                <strong>${data.article.title} ${data.article.body}</strong>
+                <strong>${data.article.title}</strong>
               </div>
       
               <div>articlename: <strong>${data.article.title}</strong></div>
-              <div>notEmail: <strong>${data.article.body}</strong></div>
+             
       
               <div class="text-center">
                 <br>
