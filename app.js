@@ -80,6 +80,19 @@ app.use(function(req,res,next){
   next();
 });
 
+//Set up CORS
+app.use(function(req, res, next) {
+  res.header('Access-Control-Allow-Credentials', true);
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept');
+  if ('OPTIONS' == req.method) {
+    res.send(200);
+  } else {
+    next();
+  }
+});
+
   //Session based access control
 app.use(function(req,res,next){
   //Uncomment the following line to allow access to everything.
@@ -88,11 +101,11 @@ app.use(function(req,res,next){
   //Allow any endpoint that is an exact match. The server does not
   //have access to User Managementth#xxx would bot be considered
   //exact matches.
-  var whitelist = [
-    '/',
-    '/auth',
-    '/articles'
-  ];
+  //var whitelist = [
+  //  '/',
+  //  '/auth',
+  //  '/articles'
+  //];
 
   //req.url holds the current URL
   //indexOf() returns the index of the matching array element
@@ -106,7 +119,8 @@ app.use(function(req,res,next){
   //Allow access to dynamic end points
   var subs = [
     '/public/',
-    '/api/auth/'
+    '/api/auth/',
+    '/articles/'
   ];
 
   //The query string provides a partial URL match beginning

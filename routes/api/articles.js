@@ -3,7 +3,7 @@ var router = express.Router();
 var Articles = require('../../models/articles');
 
 router.get('/', function(req, res, next) {
-    Articles.find({},function(err, articles){
+    Articles.find({}, null, {sort: '-published'}, function(err, articles){
         if(err){
          return res.json({'success':false, 'error': err});
        }
@@ -20,6 +20,16 @@ router.get('/:id', function(req,res){
     }
      return res.json({'success':true, 'article': article});
    });
+});
+
+router.get('/byUser/:userID', function(req,res){
+  var userID = req.params.userID;
+  Articles.find({'userID':userID}, null, {sort: '-published'}, function(err, articles){
+    if(err){
+      return res.json({'success':false, 'error': err});
+    }
+      return res.json({'success':true, 'articles': articles});
+    });
 });
 
 router.post('/', function(req, res) {
@@ -68,7 +78,7 @@ router.put('/', function(req, res){
     
       if(data.published){
         article.published = data.published;
-        post.offset = new Date(data.published).getTimezoneOffset();
+        article.offset = new Date(data.published).getTimezoneOffset();
         }
       
       article.save(function(err){
