@@ -3,7 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-var config = require('./config.dev');
+
 var mongoose = require('mongoose');
 var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
@@ -19,6 +19,14 @@ var apiUsersRouter = require('./routes/api/users');
 var apiAuthRouter = require('./routes/api/auth');
 var apiArticlesRouter = require('./routes/api/articles');
 var app = express();
+
+if(process.env.NODE_ENV==='production'){
+  var config = require('../config.prod');
+}else{
+  var config = require('./config.dev');
+}
+
+mongoose.connect(config.mongodb, { useNewUrlParser: true });
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -49,10 +57,6 @@ app.use(require('express-session')({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
-
-//Connect to MongoDB
-mongoose.connect(config.mongodb, { useNewUrlParser: true });
-
 passport.use(Users.createStrategy());
 passport.serializeUser(function(user, done){
   done(null,{
@@ -101,11 +105,11 @@ app.use(function(req,res,next){
   //Allow any endpoint that is an exact match. The server does not
   //have access to User Managementth#xxx would bot be considered
   //exact matches.
-  //var whitelist = [
-  //  '/',
-  //  '/auth',
-  //  '/articles'
-  //];
+  var whitelist = [
+    '/',
+    '/auth',
+    '/articles'
+  ];
 
   //req.url holds the current URL
   //indexOf() returns the index of the matching array element

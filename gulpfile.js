@@ -37,14 +37,14 @@ gulp.task('build-main-css', function(){
 
 gulp.task('build-main-js', function() {
 
-  var authApp = gulp.src([
+  var mainApp = gulp.src([
     'src/js/main.js',
   ])
   .pipe(concat('main.min.js'))
   .pipe(uglify())
   .pipe(gulp.dest('public/dist/js'));
 
-  return merge(authApp);
+  return merge(mainApp);
 });
 
 gulp.task('build-users-js', function() {

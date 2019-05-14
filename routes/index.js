@@ -3,7 +3,7 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', {title: 'Welcome to My New New Express Page', name:'Christa'});
+  res.render('index', {title:'Express Page', name:'Christa'});
 });
 router.get('/logout', function(req, res){
   console.log(req.session);
